@@ -65,11 +65,15 @@ function closeModal(modalId) {
 window.onclick = function(event) {
     const mlModal = document.getElementById('mlDlModal');
     const cnnModal = document.getElementById('cnnModal');
+    const ethicsModal = document.getElementById('ethicsModal');
     
     if (event.target == mlModal) {
         closeMLDLModal();
     }
     if (event.target == cnnModal) {
         closeCNNModal();
+    }
+    if (event.target == ethicsModal) {
+        closeEthicsModal();
     }
 }

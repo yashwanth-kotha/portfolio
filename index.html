@@ -148,13 +148,30 @@
                         </div>
                     </div>
                     
-                    <div class="service-card fade-in coming-soon">
-                        <h3>Week 4: Coming Soon</h3>
-                        <p>Future artifact to be developed in upcoming weeks.</p>
+                    <div class="service-card fade-in">
+                        <h3>Week 4: AI Ethics Decision Tree</h3>
+                        <p>An interactive decision tree that guides users through ethical considerations in AI development, helping navigate complex moral and practical challenges.</p>
                         <ul class="service-features">
-                            <li>More exciting projects ahead</li>
-                            <li>Continuous learning journey</li>
-                            <li>Practical AI implementations</li>
+                            <li>Interactive ethical scenario exploration</li>
+                            <li>Decision path tracking and analysis</li>
+                            <li>Risk assessment and recommendations</li>
+                            <li>Comprehensive ethics framework reference</li>
+                        </ul>
+                        <div style="margin-top: 1.5rem;">
+                            <button onclick="openEthicsModal()" class="demo-button week4-button">
+                                Navigate Ethics Tree →
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card fade-in coming-soon">
+                        <h3>Week 5-8: Coming Soon</h3>
+                        <p>More exciting artifacts to be developed in upcoming weeks of the AI class journey.</p>
+                        <ul class="service-features">
+                            <li>Advanced AI applications</li>
+                            <li>Cutting-edge technology exploration</li>
+                            <li>Real-world problem solving</li>
+                            <li>Innovative implementation strategies</li>
                         </ul>
                     </div>
                 </div>
@@ -207,11 +224,19 @@
         </div>
     </div>
 
+    <div id="ethicsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeEthicsModal()">&times;</span>
+            <div id="ethics-content"></div>
+        </div>
+    </div>
+
     <div class="tooltip" id="tooltip"></div>
 
     <!-- Scripts -->
     <script src="js/main.js"></script>
     <script src="js/ml-dl-viz.js"></script>
     <script src="js/cnn-viz.js"></script>
+    <script src="js/ai-ethics-viz.js"></script>
 </body>
 </html>

@@ -338,6 +338,10 @@ nav {
     background: linear-gradient(135deg, #10b981, #059669);
 }
 
+.week4-button {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+}
+
 /* Modal Styles */
 .modal {
     display: none;
@@ -443,6 +447,43 @@ nav {
 
 .control-button.active {
     background: linear-gradient(135deg, #f59e0b, #ef4444);
+}
+
+/* Ethics-specific styles */
+.scenario-card {
+    background: rgba(30, 41, 59, 0.5);
+    padding: 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.scenario-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.1);
+}
+
+.ethics-option {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid #3b82f6;
+    color: #f1f5f9;
+    padding: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.ethics-option:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
+}
+
+.ethics-option:active {
+    transform: translateX(5px) scale(0.98);
 }
 
 /* Tooltip */
