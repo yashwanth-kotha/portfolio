@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clay Data Submission Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #718096;
+            text-align: center;
+            margin-bottom: 32px;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], input[type="email"], input[type="url"] {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        input:hover {
+            border-color: #cbd5e0;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+
+        .status.success {
+            background-color: #c6f6d5;
+            color: #22543d;
+            border: 2px solid #9ae6b4;
+        }
+
+        .status.error {
+            background-color: #fed7d7;
+            color: #c53030;
+            border: 2px solid #fc8181;
+        }
+
+        .status.loading {
+            background-color: #bee3f8;
+            color: #2a69ac;
+            border: 2px solid #90cdf4;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #90cdf4;
+            border-radius: 50%;
+            border-top-color: #2a69ac;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .form-group input::placeholder {
+            color: #a0aec0;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Clay Data Portal</h1>
+        <p class="subtitle">Submit company information to Clay</p>
+        
+        <form id="clayForm">
+            <div class="form-group">
+                <label for="companyName">Company Name</label>
+                <input 
+                    type="text" 
+                    id="companyName" 
+                    name="companyName" 
+                    required 
+                    placeholder="Enter company name"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="companyUrl">Company Website</label>
+                <input 
+                    type="url" 
+                    id="companyUrl" 
+                    name="companyUrl" 
+                    required 
+                    placeholder="https://example.com"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    required 
+                    placeholder="your@email.com"
+                >
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Submit to Clay
+            </button>
+        </form>
+        
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('clayForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusDiv = document.getElementById('status');
+        const webhookUrl = 'https://api.clay.com/v3/sources/webhook/pull-in-data-from-a-webhook-572f2bb8-5588-4058-8fbc-f7151793f49f';
+
+        function showStatus(message, type) {
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+        }
+
+        function showLoadingStatus(message) {
+            statusDiv.innerHTML = `<span class="loading-spinner"></span>${message}`;
+            statusDiv.className = 'status loading';
+            statusDiv.style.display = 'block';
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            showLoadingStatus('Sending data to Clay...');
+            
+            // Get form data
+            const formData = new FormData(form);
+            const data = {
+                company_name: formData.get('companyName'),
+                company_url: formData.get('companyUrl'),
+                email: formData.get('email')
+            };
+            
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    showStatus('✅ Data successfully sent to Clay!', 'success');
+                    form.reset(); // Clear the form
+                } else {
+                    const errorText = await response.text();
+                    showStatus(`❌ Error: ${response.status} - ${response.statusText}`, 'error');
+                    console.error('Response:', errorText);
+                }
+                
+            } catch (error) {
+                showStatus('❌ Network error - please check your connection', 'error');
+                console.error('Error:', error);
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Add some visual feedback on input focus
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
