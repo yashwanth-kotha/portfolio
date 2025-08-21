@@ -222,6 +222,8 @@
         const submitBtn = document.getElementById('submitBtn');
         const statusDiv = document.getElementById('status');
         const webhookUrl = 'https://api.clay.com/v3/sources/webhook/pull-in-data-from-a-webhook-572f2bb8-5588-4058-8fbc-f7151793f49f';
+        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        const finalUrl = proxyUrl + webhookUrl;
 
         function showStatus(message, type) {
             statusDiv.textContent = message;
@@ -251,7 +253,7 @@
             };
             
             try {
-                const response = await fetch(webhookUrl, {
+                const response = await fetch(finalUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
