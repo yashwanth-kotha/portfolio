@@ -4,17 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
         });
     });
 
-    // Scroll animations
+    // Fade in animation on scroll
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -23,14 +19,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
             }
         });
     }, observerOptions);
 
     document.querySelectorAll('.fade-in').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
+
 
     // Active navigation highlighting
     window.addEventListener('scroll', () => {
@@ -54,6 +55,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Toggle artifact details
+function toggleArtifactDetails(button) {
+    const details = button.closest('.service-card').querySelector('.artifact-details');
+    const isVisible = details.style.display !== 'none';
+    
+    if (isVisible) {
+        details.style.display = 'none';
+        button.textContent = 'Read More ↓';
+    } else {
+        details.style.display = 'block';
+        button.textContent = 'Read Less ↑';
+    }
+}
 
 // Global modal functions
 function closeModal(modalId) {
